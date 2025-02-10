@@ -1,0 +1,5 @@
+mysql:
+  dsn: "dblabs:dblabs@tcp(localhost:3306)/dblabs"
+  output: frameworks/bob/models
+
+no_tests: true

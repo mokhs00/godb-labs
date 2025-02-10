@@ -4,11 +4,24 @@
 package factory
 
 type Factory struct {
+	basePostMods PostModSlice
 	baseUserMods UserModSlice
 }
 
 func New() *Factory {
 	return &Factory{}
+}
+
+func (f *Factory) NewPost(mods ...PostMod) *PostTemplate {
+	o := &PostTemplate{f: f}
+
+	if f != nil {
+		f.basePostMods.Apply(o)
+	}
+
+	PostModSlice(mods).Apply(o)
+
+	return o
 }
 
 func (f *Factory) NewUser(mods ...UserMod) *UserTemplate {
@@ -21,6 +34,14 @@ func (f *Factory) NewUser(mods ...UserMod) *UserTemplate {
 	UserModSlice(mods).Apply(o)
 
 	return o
+}
+
+func (f *Factory) ClearBasePostMods() {
+	f.basePostMods = nil
+}
+
+func (f *Factory) AddBasePostMod(mods ...PostMod) {
+	f.basePostMods = append(f.basePostMods, mods...)
 }
 
 func (f *Factory) ClearBaseUserMods() {

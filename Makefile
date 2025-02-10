@@ -17,3 +17,8 @@ run-mysql:
 		-p $(MYSQL_PORT):3306 \
 		--restart unless-stopped \
 		mysql:$(MYSQL_VERSION) --default-authentication-plugin=mysql_native_password
+
+# generate-bob-db-models: Generate models from database with bob
+.PHONY: generate-bob-db-models
+generate-bob-db-models:
+	go run github.com/stephenafamo/bob/gen/bobgen-mysql@latest -c ./frameworks/bob/config/bobgen.yaml

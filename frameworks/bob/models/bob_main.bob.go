@@ -15,14 +15,25 @@ import (
 )
 
 var TableNames = struct {
+	Posts string
 	Users string
 }{
+	Posts: "post",
 	Users: "user",
 }
 
 var ColumnNames = struct {
+	Posts postColumnNames
 	Users userColumnNames
 }{
+	Posts: postColumnNames{
+		PostID:    "post_id",
+		UserID:    "user_id",
+		Title:     "title",
+		Content:   "content",
+		CreatedAt: "created_at",
+		UpdatedAt: "updated_at",
+	},
 	Users: userColumnNames{
 		UserID:            "user_id",
 		Name:              "name",
@@ -40,11 +51,14 @@ var (
 )
 
 func Where[Q mysql.Filterable]() struct {
+	Posts postWhere[Q]
 	Users userWhere[Q]
 } {
 	return struct {
+		Posts postWhere[Q]
 		Users userWhere[Q]
 	}{
+		Posts: buildPostWhere[Q](PostColumns),
 		Users: buildUserWhere[Q](UserColumns),
 	}
 }

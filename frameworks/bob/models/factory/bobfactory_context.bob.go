@@ -11,7 +11,10 @@ import (
 
 type contextKey string
 
-var userCtx = newContextual[*models.User]("user")
+var (
+	postCtx = newContextual[*models.Post]("post")
+	userCtx = newContextual[*models.User]("user")
+)
 
 // Contextual is a convienience wrapper around context.WithValue and context.Value
 type contextual[V any] struct {
